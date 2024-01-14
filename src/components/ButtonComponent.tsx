@@ -15,12 +15,12 @@ type Props = {
 
 const ButtonComponent = ({
   buttonText,
-buttonColor,
+  buttonColor,
   buttonBackgroundColor,
   showRightIcon = false,
   onClick,
 }: Props) => {
-  const { currentQuestionIndex, setCurrentQuestionIndex, selectedAnswerId } =
+  const { currentQuestionIndex, setCurrentQuestionIndex, selectedAnswerId,setSelectedAnswerId } =
     useContext(UserContext);
 
   const handleRightIconClick = (e: React.MouseEvent) => {
@@ -30,8 +30,8 @@ buttonColor,
     if (selectedAnswerId && currentQuestionIndex >= 0) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
-    console.log(currentQuestionIndex, "currentQuestionIndex");
-    console.log("rightIconClick");
+    setSelectedAnswerId(null);
+   
   };
 
  

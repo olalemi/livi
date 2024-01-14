@@ -1,4 +1,4 @@
-import React, {  useContext} from "react";
+import React, { useContext, useState } from "react";
 import { Box, Text, Flex } from "@chakra-ui/react";
 import questionsData from "../data/questions.json";
 import OptionComponent from "./OptionComponent";
@@ -11,16 +11,10 @@ interface Answer {
   score: number;
 }
 
-interface NextWithAnswered {
-  answered: string;
+interface NextType {
+  answered?: string;
   next_question: string;
 }
-
-interface NextWithoutAnswered {
-  next_question: string;
-}
-
-type NextType = NextWithAnswered | NextWithoutAnswered;
 
 interface Question {
   id: string;
@@ -30,58 +24,91 @@ interface Question {
 }
 
 const Question: React.FC = () => {
+  const [questionScores, setQuestionScores] = useState<{
+    [key: string]: number;
+  }>({});
+  const {
+    currentQuestionIndex,
+    setCurrentQuestionIndex,
+    selectedAnswerId,
+    setSelectedAnswerId,
+  } = useContext(UserContext);
 
-
-
-
-  const { currentQuestionIndex, setCurrentQuestionIndex, setTotalScore, selectedAnswerId, setSelectedAnswerId } = useContext(UserContext);
-
-  const isLastQuestion = currentQuestionIndex === questionsData.questions.length - 1;
   const currentQuestion = questionsData.questions[currentQuestionIndex];
+  const isLastQuestion =
+    currentQuestionIndex == 9;
+
+ console.log(isLastQuestion,"lastQuestion");
+ 
+ 
 
   const handleAnswerClick = (answerId: string) => {
-    
-
-    if (selectedAnswerId === answerId) {
-   
-      setSelectedAnswerId(null);
-
-    } else {
-
-      const answer = currentQuestion.answers.find((ans) => ans.id === answerId);
+    const answer = currentQuestion.answers.find((ans) => ans.id === answerId);
+    if (selectedAnswerId !== answerId) {
       setSelectedAnswerId(answerId);
       if (answer) {
-        setTotalScore((prevScore) => prevScore + answer.score);
+        setQuestionScores((prevScores) => ({
+          ...prevScores,
+          [currentQuestion.id]: answer.score,
+        }));
       }
-    
-    
+    } else {
+      setSelectedAnswerId(null);
     }
-    
+
    
- 
+    
   };
 
-  const navigateToQuestion = (nextQuestionIndex: number) => {
-    setCurrentQuestionIndex(nextQuestionIndex);
-    setSelectedAnswerId(null);
+
+
+  const navigateToQuestion = (newIndex: number) => {
+    if (newIndex >= 0 && newIndex < questionsData.questions.length) {
+      setCurrentQuestionIndex(newIndex);
+      setSelectedAnswerId(null);
+    }
   };
+
+  const calculateTotalScore = () => {
+    return Object.values(questionScores).reduce((acc, score) => acc + score, 0);
+  };
+
+
+  const determineOutcome = (totalScore: number) => {
+    if (totalScore <= 5) {
+      return questionsData.outcomes[0]; 
+    } else if (totalScore <= 49) {
+      return questionsData.outcomes[1]; 
+    } else {
+      return questionsData.outcomes[2]; 
+    }
+  };
+
+  console.log(questionsData.outcomes[0],"q data");
+  
 
   const handleNavigation = (isForward: boolean) => {
     if (isForward && !selectedAnswerId) return;
 
-    const newIndex = isForward
-      ? currentQuestionIndex + 1
-      : currentQuestionIndex - 1;
-    if (newIndex >= 0 && newIndex < questionsData.questions.length) {
-      navigateToQuestion(newIndex);
+    const newTotalScore = calculateTotalScore();
+    if (isLastQuestion) {
+
+      const outcome = determineOutcome(newTotalScore);
+
+  console.log("Outcome:", outcome);  
+    
+
+
+    } else {
+      navigateToQuestion(currentQuestionIndex + 1);
     }
-    console.log(newIndex, "what is the index");
-    console.log(isForward, "what is isForward");
+
+    navigateToQuestion(
+      isForward ? currentQuestionIndex + 1 : currentQuestionIndex - 1,
+    );
   };
-
-  console.log(currentQuestion.question_text,"question text");
-
- 
+      console.log("print meeee"); 
+  console.log(currentQuestionIndex,"question index");
   
 
   return (
@@ -89,15 +116,15 @@ const Question: React.FC = () => {
       <Text
         color="#3f6072"
         fontSize={{ base: "16px", md: "20px" }}
-        padding={{ base: "16px", md: "30px" }}
+        width={{ base: "200px", md: "300px" }}
+        padding={{ base: "20px 0px", md: "50px 0px" }}
+        margin="auto"
         fontWeight={700}
         textAlign="center"
         mt="30px"
-        width={{ md: "400px" }}
       >
         {currentQuestion.question_text}
       </Text>
-
       <Flex
         justifyContent="center"
         flexDirection="row"
@@ -109,20 +136,19 @@ const Question: React.FC = () => {
           <OptionComponent
             key={answer.id}
             buttonText={answer.label}
-            isSelected={  selectedAnswerId === answer.id}
+            isSelected={selectedAnswerId === answer.id}
             onClick={() => handleAnswerClick(answer.id)}
           />
         ))}
       </Flex>
-
-      <Box p={{ base: "20px " }} mt={40}>
+      <Box p={{ base: "20px" }} mt={40}>
         <ButtonComponent
           buttonText="Next"
-          buttonBackgroundColor={selectedAnswerId? "#77d2c1": ""}
-          showRightIcon={currentQuestionIndex >= 0}
-          showLeftIcon={currentQuestionIndex > 0}
-          onRightIconClick={() => handleNavigation(!isLastQuestion)}
+          buttonBackgroundColor={selectedAnswerId ? "#77d2c1" : ""}
           buttonColor={selectedAnswerId ? "#fff" : "#3f6072"}
+          showRightIcon={true}
+          showLeftIcon={currentQuestionIndex > 0}
+          onRightIconClick={() => handleNavigation(true)}
         />
       </Box>
     </Box>

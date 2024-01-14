@@ -1,8 +1,11 @@
 import { Box } from "@chakra-ui/react";
 import HomePage from "./screens/HomePage";
 import RootLayout from "./layouts/RootLayout";
-import UserProvider from "./utility/userProvider";
+import UserProvider from "./utility/UserProvider";
 import Question from "./components/QuestionComponent";
+import OutcomeComponent from "./components/OutcomeComponent";
+
+
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -15,6 +18,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<RootLayout />}>
       <Route index={true} element={<HomePage />} />
       <Route path="question" element={<Question />} />
+      <Route path="outcome" element={<OutcomeComponent />} />
     </Route>,
   ),
 );

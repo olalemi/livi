@@ -26,9 +26,11 @@ const RootLayout = () => {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
 
-    console.log("leftIconClick");
-    console.log(currentQuestionIndex, "currentQuestionIndex");
   };
+
+
+
+  
 
   return (
     <Flex
