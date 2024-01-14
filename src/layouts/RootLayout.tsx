@@ -26,19 +26,12 @@ const RootLayout = () => {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
 
-<<<<<<< HEAD
   };
 
 
 
   
 
-=======
-    console.log("leftIconClick");
-    console.log(currentQuestionIndex, "currentQuestionIndex");
-  };
-
->>>>>>> ebe4a12a0b96e6bb506a29697a0550a9e96772e5
   return (
     <Flex
       backgroundColor="#77d2c1"
