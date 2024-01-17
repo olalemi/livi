@@ -1,10 +1,9 @@
 import { Box } from "@chakra-ui/react";
 import HomePage from "./screens/HomePage";
 import RootLayout from "./layouts/RootLayout";
-import UserProvider from "./utility/UserProvider";
 import Question from "./components/QuestionComponent";
+import UserProvider from "./utility/UserProvider";
 import OutcomeComponent from "./components/OutcomeComponent";
-
 
 import {
   createBrowserRouter,

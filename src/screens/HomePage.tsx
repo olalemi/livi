@@ -1,9 +1,16 @@
+import { useContext } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import ButtonComponent from "../components/ButtonComponent";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../utility/UserProvider";
 
 const HomePage = () => {
+  const { setCurrentQuestionIndex } = useContext(UserContext);
   const navigate = useNavigate();
+  const handleStartQuestions = () => {
+    navigate("/question");
+    setCurrentQuestionIndex(0);
+  };
 
   return (
     <Box>
@@ -25,11 +32,7 @@ const HomePage = () => {
             </Box>
           </>
 
-          <Box
-            p={{ base: "20px " }}
-            mt={40}
-            onClick={() => navigate("/question")}
-          >
+          <Box p={{ base: "20px " }} mt={40} onClick={handleStartQuestions}>
             <ButtonComponent
               buttonText="Start"
               buttonBackgroundColor="#77d2c1"

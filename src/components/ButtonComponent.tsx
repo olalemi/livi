@@ -2,16 +2,8 @@ import React, { useContext } from "react";
 import RightNavIcon from "../assets/icons/right.svg?react";
 import { Box, Button, Spacer } from "@chakra-ui/react";
 import { UserContext } from "../utility/UserProvider";
+import {Props } from "../interfaces/ButtonComponent/IButtonComponent";
 
-type Props = {
-  buttonText: string;
-  buttonBackgroundColor: string;
-  buttonColor: string;
-  showRightIcon?: boolean;
-  showLeftIcon?: boolean;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  onRightIconClick?: () => void;
-};
 
 const ButtonComponent = ({
   buttonText,

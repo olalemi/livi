@@ -1,21 +1,8 @@
-
-
 import { Box, Button } from "@chakra-ui/react";
-
-type Props = {
-  buttonText: string;
-  isSelected: boolean;
-  onClick?: () => void; 
-};
-
-
+import {Props} from "../interfaces/OptionComponent/IOptionComponent"
 
 
 const OptionComponent = ({ buttonText, isSelected, onClick }: Props) => {
-
-
-
-
   return (
     <Box>
       <Button

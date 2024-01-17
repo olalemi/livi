@@ -102,7 +102,7 @@
 		},
 		{
 			"id": "heartburn_lost_weight",
-			"question_text": "Have you lost weight unvolontarily?",	
+			"question_text": "Have you lost weight unvoluntarily?",	
 			"answers": [
 				{"id": "heartburn_lost_weight_yes", "label": "Yes", "score": 25},
 				{"id": "heartburn_lost_weight_no", "label": "No", "score": 0}
